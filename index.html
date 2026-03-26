@@ -1,0 +1,1547 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AquaTech - Final Year Project Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #0f172a;
+        color: #f8fafc;
+        font-family: "Inter", sans-serif;
+      }
+
+      /* 🔥 STRICT PPT SLIDE FIT */
+      .slide {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+
+        /* Perfect centering */
+        display: none;
+        align-items: center;
+        justify-content: center;
+
+        /* Reduced padding for fit */
+        padding: 1.5rem 2.5rem;
+
+        box-sizing: border-box;
+        overflow: hidden;
+
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      .slide.active {
+        display: flex;
+      }
+
+      /* 🔥 CONTENT FIT FIX */
+      .slide-content {
+        width: 100%;
+        max-width: 1100px;
+
+        /* Key fix */
+        max-height: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        overflow: hidden;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* 🔥 RESPONSIVE TEXT (prevents overflow) */
+      h1 {
+        font-size: clamp(1.8rem, 3vw, 3rem);
+      }
+
+      h2 {
+        font-size: clamp(1.3rem, 2vw, 2rem);
+      }
+
+      p,
+      li {
+        font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+      }
+
+      /* Slide Layouts */
+      .title-slide h1 {
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .title-slide h2 {
+        color: #94a3b8;
+        margin-top: 0.5rem;
+      }
+
+      .content-slide h2 {
+        font-weight: 700;
+        color: #22d3ee;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        border-bottom: 2px solid #1e293b;
+        padding-bottom: 0.4rem;
+        flex-shrink: 0;
+      }
+
+      .bullet-list {
+        line-height: 1.4;
+        color: #cbd5e1;
+        list-style: none;
+        padding: 0;
+      }
+
+      .bullet-list li {
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+      }
+
+      .bullet-list li i {
+        color: #3b82f6;
+        margin-top: 0.2rem;
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+      }
+
+      /* Cards tighter */
+      .card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 0.6rem;
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .highlight-box {
+        border-left: 4px solid #22d3ee;
+        background: rgba(34, 211, 238, 0.05);
+        padding: 0.8rem 1.2rem;
+        border-radius: 0 0.4rem 0.4rem 0;
+        margin-bottom: 0.8rem;
+      }
+
+      /* Flowchart */
+      .flow-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.4rem;
+        width: 100%;
+        flex-wrap: nowrap;
+      }
+
+      .flow-node {
+        background: #1e293b;
+        border: 2px solid #3b82f6;
+        padding: 0.6rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        flex: 1;
+        min-width: 90px;
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+
+      .flow-arrow {
+        color: #64748b;
+        flex-shrink: 0;
+      }
+
+      /* Tables tighter */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.4rem;
+        font-size: 0.8rem;
+      }
+
+      th {
+        background: #1e293b;
+        color: #22d3ee;
+        text-align: left;
+        padding: 0.4rem 0.6rem;
+        font-weight: 600;
+        border-bottom: 2px solid #334155;
+      }
+
+      td {
+        padding: 0.4rem 0.6rem;
+        border-bottom: 1px solid #334155;
+        color: #cbd5e1;
+      }
+
+      tr:nth-child(even) {
+        background: rgba(30, 41, 59, 0.5);
+      }
+
+      /* Controls */
+      #controls {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        display: flex;
+        gap: 0.8rem;
+        z-index: 50;
+      }
+
+      .nav-btn {
+        background: #1e293b;
+        border: 1px solid #334155;
+        color: #f8fafc;
+        padding: 0.6rem;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .nav-btn:hover {
+        background: #3b82f6;
+        border-color: #3b82f6;
+      }
+
+      #progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 4px;
+        background: #22d3ee;
+        transition: width 0.3s ease;
+        z-index: 50;
+      }
+
+      #slide-counter {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 1.5rem;
+        color: #64748b;
+        font-family: monospace;
+        font-size: 1rem;
+      }
+
+      /* Background */
+      .bg-graphic {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        z-index: 0;
+        opacity: 0.12;
+      }
+
+      .bg-1 {
+        top: -10%;
+        left: -10%;
+        width: 50vw;
+        height: 50vw;
+        background: #22d3ee;
+      }
+
+      .bg-2 {
+        bottom: -10%;
+        right: -10%;
+        width: 40vw;
+        height: 40vw;
+        background: #3b82f6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-graphic bg-1"></div>
+    <div class="bg-graphic bg-2"></div>
+    <div id="progress-bar" style="width: 0%"></div>
+    <div id="slide-counter">1 / 23</div>
+
+    <!-- Controls -->
+    <div id="controls">
+      <button
+        class="nav-btn"
+        onclick="prevSlide()"
+        title="Previous Slide (Left Arrow)"
+      >
+        <i data-lucide="chevron-left"></i>
+      </button>
+      <button
+        class="nav-btn"
+        onclick="nextSlide()"
+        title="Next Slide (Right Arrow)"
+      >
+        <i data-lucide="chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active title-slide" id="slide-1">
+      <div
+        class="slide-content text-center w-full max-w-5xl mx-auto flex flex-col items-center justify-center"
+      >
+        <!-- Top Badge -->
+        <div
+          class="inline-block px-3 py-1 rounded-full border border-teal-500/30 text-teal-400 text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4 bg-teal-900/10 shadow-sm"
+        >
+          Project Proposal • 2nd Review
+        </div>
+
+        <!-- Main Title -->
+        <h1
+          style="
+            background: none;
+            -webkit-text-fill-color: initial;
+            color: white;
+          "
+          class="text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold mb-3 leading-tight tracking-tight"
+        >
+          AI-Based Multivariate <br />
+          <span class="text-sky-400" style="-webkit-text-fill-color: initial"
+            >Water Quality Prediction & Risk Assessment</span
+          >
+          <br />
+          for Shrimp Aquaculture
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-slate-400 text-sm md:text-base mb-6 md:mb-8 font-medium">
+          A Nitrogen-Aware, Deployment-Ready Early Warning System
+        </p>
+
+        <!-- Bottom Card -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 text-left max-w-4xl w-full mx-auto bg-[#182232] border border-slate-700/50 rounded-2xl p-5 shadow-2xl relative"
+        >
+          <!-- Center Divider Line (visible on md+) -->
+          <div
+            class="hidden md:block absolute left-1/2 top-6 bottom-6 w-px bg-slate-700/50"
+          ></div>
+
+          <!-- Left Column: Team -->
+          <div class="space-y-3 md:pr-6">
+            <p
+              class="text-slate-500 text-[10px] md:text-xs font-bold tracking-widest uppercase mb-2"
+            >
+              Team Members
+            </p>
+            <div class="flex items-center gap-2 md:gap-3">
+              <i
+                data-lucide="user-circle"
+                class="text-teal-400 w-4 h-4 md:w-5 md:h-5 fill-teal-400/10"
+              ></i>
+              <div class="text-xs md:text-sm">
+                <span class="font-bold text-white tracking-wide"
+                  >Rohit Mukkala</span
+                >
+                <span class="text-slate-500 text-[10px] md:text-xs ml-1"
+                  >(22BCE8655)</span
+                >
+              </div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-3">
+              <i
+                data-lucide="user-circle"
+                class="text-teal-400 w-4 h-4 md:w-5 md:h-5 fill-teal-400/10"
+              ></i>
+              <div class="text-xs md:text-sm">
+                <span class="font-bold text-white tracking-wide"
+                  >Aditya Pandey</span
+                >
+                <span class="text-slate-500 text-[10px] md:text-xs ml-1"
+                  >(22BCE8776)</span
+                >
+              </div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-3">
+              <i
+                data-lucide="user-circle"
+                class="text-teal-400 w-4 h-4 md:w-5 md:h-5 fill-teal-400/10"
+              ></i>
+              <div class="text-xs md:text-sm">
+                <span class="font-bold text-white tracking-wide"
+                  >Batchu Rony Revanth</span
+                >
+                <span class="text-slate-500 text-[10px] md:text-xs ml-1"
+                  >(22BCE9847)</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Guide -->
+          <div
+            class="space-y-3 md:pl-6 mt-4 md:mt-0 flex flex-col justify-between"
+          >
+            <div>
+              <p
+                class="text-slate-500 text-[10px] md:text-xs font-bold tracking-widest uppercase mb-2"
+              >
+                Project Guide
+              </p>
+              <div class="flex items-center gap-2 md:gap-3 mb-1">
+                <i
+                  data-lucide="monitor-play"
+                  class="text-blue-400 w-4 h-4 md:w-5 md:h-5"
+                ></i>
+                <span
+                  class="font-bold text-white text-sm md:text-base tracking-wide"
+                  >Dr. Mohan Allam</span
+                >
+              </div>
+              <div class="text-slate-400 text-[10px] md:text-xs ml-6 md:ml-8">
+                Professor, SCOPE
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 md:gap-3 mt-4 md:mt-6">
+              <i
+                data-lucide="landmark"
+                class="text-white w-4 h-4 md:w-5 md:h-5"
+              ></i>
+              <span
+                class="font-bold text-white tracking-widest uppercase text-xs md:text-sm"
+                >VIT-AP UNIVERSITY</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Problem Statement -->
+    <div class="slide content-slide" id="slide-2">
+      <div class="slide-content">
+        <h2><i data-lucide="alert-triangle"></i> Problem Statement</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <ul class="bullet-list">
+              <li>
+                <i data-lucide="x-circle" class="text-red-400"></i>
+                <b>Reactive Systems:</b> Traditional monitoring relies on manual
+                sampling or static thresholds.
+              </li>
+              <li>
+                <i data-lucide="trending-down" class="text-red-400"></i>
+                <b>No Predictive Insight:</b> Fails to capture complex temporal
+                dynamics of water quality.
+              </li>
+              <li>
+                <i data-lucide="flask-conical" class="text-red-400"></i>
+                <b>Hidden Nitrogen Risks:</b> Ammonia & Nitrate are treated as
+                threshold alerts, catching toxicity only *after* it becomes
+                lethal.
+              </li>
+              <li>
+                <i data-lucide="clock" class="text-red-400"></i>
+                <b>No Lead Time:</b> Lack of decision-support systems leaves
+                operators without time to react.
+              </li>
+            </ul>
+          </div>
+          <div
+            class="card flex flex-col items-center justify-center text-center border-red-900/50 bg-red-900/10"
+          >
+            <i data-lucide="activity" class="w-16 h-16 text-red-400 mb-4"></i>
+            <p class="text-lg text-slate-300">
+              "Current systems detect failure. They do not prevent it."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Objectives -->
+    <div class="slide content-slide" id="slide-3">
+      <div class="slide-content">
+        <h2><i data-lucide="target"></i> Project Objectives</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card">
+            <div class="flex items-center gap-3 mb-3">
+              <i data-lucide="layers" class="text-cyan-400"></i>
+              <h3 class="font-bold text-xl">Multivariate Forecasting</h3>
+            </div>
+            <p class="text-slate-400">
+              Jointly predict Dissolved Oxygen (DO), Temp, pH, and Turbidity.
+            </p>
+          </div>
+          <div class="card">
+            <div class="flex items-center gap-3 mb-3">
+              <i data-lucide="test-tubes" class="text-cyan-400"></i>
+              <h3 class="font-bold text-xl">Nitrogen-Aware Prediction</h3>
+            </div>
+            <p class="text-slate-400">
+              Forecast Ammonia and Nitrate based on forecasted environmental
+              conditions.
+            </p>
+          </div>
+          <div class="card">
+            <div class="flex items-center gap-3 mb-3">
+              <i data-lucide="shield-alert" class="text-cyan-400"></i>
+              <h3 class="font-bold text-xl">Risk-Based Early Warning</h3>
+            </div>
+            <p class="text-slate-400">
+              Convert continuous forecasts into Safe/Warning/Critical states
+              with lead-time.
+            </p>
+          </div>
+          <div class="card">
+            <div class="flex items-center gap-3 mb-3">
+              <i data-lucide="server" class="text-cyan-400"></i>
+              <h3 class="font-bold text-xl">Robust Deployment Pipeline</h3>
+            </div>
+            <p class="text-slate-400">
+              Handle noisy sensor data (Imputation) within a scalable FastAPI
+              backend.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: System Overview -->
+    <div class="slide content-slide" id="slide-4">
+      <div class="slide-content">
+        <h2><i data-lucide="share-2"></i> High-Level System Architecture</h2>
+        <div class="card p-8 bg-slate-800 mt-8">
+          <div class="flow-container">
+            <div class="flow-node border-blue-500">
+              <i
+                data-lucide="satellite-dish"
+                class="mx-auto mb-2 text-blue-400"
+              ></i>
+              Sensor IoT Data
+            </div>
+            <i data-lucide="arrow-right" class="flow-arrow hidden md:block"></i>
+            <div class="flow-node border-purple-500">
+              <i
+                data-lucide="database"
+                class="mx-auto mb-2 text-purple-400"
+              ></i>
+              Preprocessing & Imputation
+            </div>
+            <i data-lucide="arrow-right" class="flow-arrow hidden md:block"></i>
+            <div class="flow-node border-cyan-500">
+              <i data-lucide="brain" class="mx-auto mb-2 text-cyan-400"></i>
+              Multivariate LSTM
+            </div>
+            <i data-lucide="arrow-right" class="flow-arrow hidden md:block"></i>
+            <div class="flow-node border-green-500">
+              <i data-lucide="activity" class="mx-auto mb-2 text-green-400"></i>
+              Risk Engine & API
+            </div>
+          </div>
+        </div>
+        <p class="text-center mt-6 text-slate-400 italic">
+          Fully integrated end-to-end pipeline operating in real-time.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Key Contributions -->
+    <div class="slide content-slide" id="slide-5">
+      <div class="slide-content">
+        <h2><i data-lucide="lightbulb"></i> Key Contributions & Novelty</h2>
+        <div class="highlight-box mb-6">
+          <p class="text-xl text-slate-200">
+            Our system moves beyond isolated parameter tracking by introducing a
+            <b>Physics-Guided, Cascaded Prediction Architecture</b>.
+          </p>
+        </div>
+        <ul class="bullet-list">
+          <li>
+            <i data-lucide="check-circle"></i> <b>Multivariate LSTM:</b> Joint
+            modeling of DO, Temp, pH, and Turbidity (capturing interactions).
+          </li>
+          <li>
+            <i data-lucide="check-circle"></i>
+            <b>Cascaded Nitrogen Model:</b> Uses physical parameter forecasts to
+            predict chemical (Ammonia/Nitrate) stress dynamically.
+          </li>
+          <li>
+            <i data-lucide="check-circle"></i>
+            <b>Physics-Guided Stabilization:</b> Post-processing predictions
+            using real-world ecological constraints (e.g., thermal inertia, DO
+            saturation).
+          </li>
+          <li>
+            <i data-lucide="check-circle"></i>
+            <b>Decision-Oriented Outputs:</b> Translates raw numerical forecasts
+            into calculated risk scores and intervention lead-times.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Dataset -->
+    <div class="slide content-slide" id="slide-6">
+      <div class="slide-content">
+        <h2><i data-lucide="database"></i> Implementation: Dataset Details</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="card text-center">
+            <div class="text-4xl font-bold text-cyan-400 mb-2">74,759</div>
+            <div class="text-slate-400 uppercase tracking-wide text-sm">
+              Total Observations
+            </div>
+          </div>
+          <div class="card text-center">
+            <div class="text-4xl font-bold text-blue-400 mb-2">1 Year</div>
+            <div class="text-slate-400 uppercase tracking-wide text-sm">
+              Duration (Feb '22 - Jan '23)
+            </div>
+          </div>
+          <div class="card text-center">
+            <div class="text-4xl font-bold text-purple-400 mb-2">IoT</div>
+            <div class="text-slate-400 uppercase tracking-wide text-sm">
+              NodeMCU (ESP8266)
+            </div>
+          </div>
+        </div>
+        <div class="card mt-6">
+          <h3
+            class="font-bold text-xl mb-4 text-slate-200 border-b border-slate-700 pb-2"
+          >
+            Tracked Parameters
+          </h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-2 bg-slate-800 rounded border border-slate-600"
+              >Dissolved Oxygen (DO)</span
+            >
+            <span class="px-4 py-2 bg-slate-800 rounded border border-slate-600"
+              >Temperature</span
+            >
+            <span class="px-4 py-2 bg-slate-800 rounded border border-slate-600"
+              >pH</span
+            >
+            <span class="px-4 py-2 bg-slate-800 rounded border border-slate-600"
+              >Turbidity</span
+            >
+            <span
+              class="px-4 py-2 bg-red-900/40 border border-red-500/50 rounded text-red-200"
+              >Ammonia</span
+            >
+            <span
+              class="px-4 py-2 bg-red-900/40 border border-red-500/50 rounded text-red-200"
+              >Nitrate</span
+            >
+          </div>
+          <p class="text-sm text-slate-500 mt-4">
+            *Data collected from fish/prawn ponds in Guntur, Andhra Pradesh.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Data Preprocessing -->
+    <div class="slide content-slide" id="slide-7">
+      <div class="slide-content">
+        <h2><i data-lucide="settings-2"></i> Data Preprocessing Pipeline</h2>
+        <ul class="bullet-list">
+          <li>
+            <i data-lucide="minimize"></i> <b>Normalization:</b> Min-Max scaling
+            to map all sensor values to [0, 1] range.
+          </li>
+          <li>
+            <i data-lucide="calendar-clock"></i> <b>Feature Engineering:</b>
+            <ul class="ml-8 mt-2 space-y-2 text-sm">
+              <li>
+                - Cyclic Time Features: Sine/Cosine transformations of hourly
+                timestamps.
+              </li>
+              <li>
+                - Interaction Features: Ammonia × Temperature, Ammonia × pH
+                (capturing chemical coupling).
+              </li>
+            </ul>
+          </li>
+          <li>
+            <i data-lucide="sliders-horizontal"></i>
+            <b>Sliding Window Mechanism:</b>
+            <ul class="ml-8 mt-2 space-y-2 text-sm text-cyan-300">
+              <li>→ Input Lookback Window ($L$): <b>48 time steps</b></li>
+              <li>→ Output Forecasting Horizon ($H$): <b>6 future steps</b></li>
+              <li>→ Input Tensor Shape: (59793, 48, 10)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Sensor Imputation -->
+    <div class="slide content-slide" id="slide-8">
+      <div class="slide-content">
+        <h2><i data-lucide="wifi-off"></i> Robust Sensor Imputation</h2>
+        <p class="text-xl text-slate-300 mb-6">
+          IoT environments suffer from hardware failures and packet loss. We
+          implemented dual-recovery models:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card border-t-4 border-t-green-500">
+            <h3 class="font-bold text-xl mb-2 flex items-center gap-2">
+              <i data-lucide="git-merge"></i> Random Forest Regression
+            </h3>
+            <p class="text-sm text-slate-400 mb-4">
+              Feature-based reconstruction using concurrent sensor data to
+              predict the missing parameter.
+            </p>
+            <p
+              class="text-xs bg-slate-800 p-2 rounded text-green-400 font-mono"
+            >
+              Trees: 300 | Handles non-linear relations
+            </p>
+          </div>
+          <div class="card border-t-4 border-t-blue-500">
+            <h3 class="font-bold text-xl mb-2 flex items-center gap-2">
+              <i data-lucide="history"></i> XGBoost
+            </h3>
+            <p class="text-sm text-slate-400 mb-4">
+              Temporal reconstruction using lagged variables (t-1, t-2...t-12)
+              and rolling statistics.
+            </p>
+            <p class="text-xs bg-slate-800 p-2 rounded text-blue-400 font-mono">
+              Handles long-sequence data loss
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Multivariate Forecasting Model -->
+    <div class="slide content-slide" id="slide-9">
+      <div class="slide-content">
+        <h2>
+          <i data-lucide="network"></i> Multivariate Forecasting Model (LSTM)
+        </h2>
+        <div class="highlight-box mb-6">
+          <p class="text-slate-200">
+            The core engine uses Stacked Long Short-Term Memory (LSTM) networks
+            to capture temporal dependencies simultaneously across multiple
+            physical parameters.
+          </p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+          <div class="flex-1 w-full">
+            <div class="card bg-slate-900 border-dashed border-cyan-500">
+              <h4 class="text-cyan-400 font-bold mb-3">Model Architecture</h4>
+              <ul class="text-sm space-y-2 text-slate-300 font-mono">
+                <li>Input Layer (48 steps, 10 features)</li>
+                <li>↓</li>
+                <li>LSTM Layer (64 units, return seq=True)</li>
+                <li>Dropout (0.2)</li>
+                <li>↓</li>
+                <li>LSTM Layer (32 units)</li>
+                <li>Dropout (0.2)</li>
+                <li>↓</li>
+                <li>Dense Reshape Layer (Outputs 6×4)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex-1 w-full">
+            <h3 class="font-bold text-lg mb-2">Targets Predicted:</h3>
+            <div class="space-y-2">
+              <div class="bg-slate-800 p-3 rounded flex items-center gap-3">
+                <i data-lucide="wind" class="text-blue-300"></i> Dissolved
+                Oxygen
+              </div>
+              <div class="bg-slate-800 p-3 rounded flex items-center gap-3">
+                <i data-lucide="thermometer" class="text-red-300"></i>
+                Temperature
+              </div>
+              <div class="bg-slate-800 p-3 rounded flex items-center gap-3">
+                <i data-lucide="droplet" class="text-green-300"></i> pH
+              </div>
+              <div class="bg-slate-800 p-3 rounded flex items-center gap-3">
+                <i data-lucide="waves" class="text-amber-300"></i> Turbidity
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: Nitrogen Aware Model -->
+    <div class="slide content-slide" id="slide-10">
+      <div class="slide-content">
+        <h2>
+          <i data-lucide="flask-conical"></i> Cascaded Nitrogen-Aware Model
+        </h2>
+        <p class="text-lg text-slate-300 mb-6">
+          Nitrogen (Ammonia/Nitrate) dynamics depend heavily on physical water
+          states. We use a <b>Cascaded LSTM Architecture</b>.
+        </p>
+
+        <div
+          class="card bg-slate-800 p-6 flex flex-col md:flex-row items-center justify-center gap-6"
+        >
+          <div
+            class="text-center p-4 border border-slate-600 rounded bg-slate-900"
+          >
+            <p class="font-bold text-slate-300 mb-2">Inputs</p>
+            <span class="text-xs text-cyan-400 block"
+              >Forecasted DO, Temp, pH</span
+            >
+            <span class="text-xs text-purple-400 block"
+              >+ Historical Nitrogen Data</span
+            >
+          </div>
+          <i
+            data-lucide="arrow-right"
+            class="text-cyan-400 w-8 h-8 hidden md:block"
+          ></i>
+          <div
+            class="text-center p-4 border border-cyan-500 rounded bg-slate-900"
+          >
+            <i data-lucide="brain" class="mx-auto text-cyan-400 mb-2"></i>
+            <p class="font-bold">Nitrogen LSTM</p>
+            <p class="text-xs text-slate-500">(128 units → 64 units)</p>
+          </div>
+          <i
+            data-lucide="arrow-right"
+            class="text-red-400 w-8 h-8 hidden md:block"
+          ></i>
+          <div
+            class="text-center p-4 border border-red-500 rounded bg-red-900/20"
+          >
+            <p class="font-bold text-red-400 mb-2">Outputs (Horizon=6)</p>
+            <span class="text-sm font-bold block">Ammonia Prediction</span>
+            <span class="text-sm font-bold block">Nitrate Prediction</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Hybrid Stabilization Layer -->
+    <div class="slide content-slide" id="slide-11">
+      <div class="slide-content">
+        <h2><i data-lucide="anchor"></i> Physics-Guided Stabilization Layer</h2>
+        <p class="text-xl text-slate-300 mb-6">
+          Neural networks can output physically impossible predictions. We
+          enforce ecological constraints via a post-processing layer:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="card flex items-start gap-4">
+            <i
+              data-lucide="thermometer-sun"
+              class="text-orange-400 w-8 h-8 shrink-0"
+            ></i>
+            <div>
+              <h4 class="font-bold">Thermal Inertia Correction</h4>
+              <p class="text-sm text-slate-400">
+                Restricts abrupt temperature changes, mimicking the slow thermal
+                response of large water bodies.
+              </p>
+            </div>
+          </div>
+          <div class="card flex items-start gap-4">
+            <i data-lucide="wind" class="text-blue-400 w-8 h-8 shrink-0"></i>
+            <div>
+              <h4 class="font-bold">DO Reaeration Bounds</h4>
+              <p class="text-sm text-slate-400">
+                Forces predicted oxygen levels toward natural saturation
+                equilibrium limits.
+              </p>
+            </div>
+          </div>
+          <div class="card flex items-start gap-4">
+            <i
+              data-lucide="droplet"
+              class="text-green-400 w-8 h-8 shrink-0"
+            ></i>
+            <div>
+              <h4 class="font-bold">pH-Ammonia Coupling</h4>
+              <p class="text-sm text-slate-400">
+                Enforces known chemical interactions between predicted pH and
+                predicted Ammonia toxicity.
+              </p>
+            </div>
+          </div>
+          <div class="card flex items-start gap-4">
+            <i
+              data-lucide="shield"
+              class="text-purple-400 w-8 h-8 shrink-0"
+            ></i>
+            <div>
+              <h4 class="font-bold">Soft Ecological Bounds</h4>
+              <p class="text-sm text-slate-400">
+                $x_{pred} = min(max(x_{pred}, x_{min}), x_{max})$ ensures
+                biologically feasible ranges.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Risk Assessment -->
+    <div class="slide content-slide" id="slide-12">
+      <div class="slide-content">
+        <h2><i data-lucide="siren"></i> Risk Assessment & Early Warning</h2>
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="flex-1">
+            <p class="mb-4">
+              Converts raw numerical forecasts into a weighted composite risk
+              score:
+            </p>
+            <div
+              class="bg-slate-800 p-4 rounded font-mono text-sm text-cyan-300 mb-6 overflow-x-auto"
+            >
+              R = (W_DO × r_DO) + (W_Temp × r_Temp) + (W_pH × r_pH) + (W_NH3 ×
+              r_NH3) + (W_NO3 × r_NO3)
+            </div>
+            <p>
+              Calculates <b>Lead Time</b>: The exact forecast step where
+              conditions first enter the 'Critical' state.
+            </p>
+          </div>
+          <div class="flex-1 flex flex-col gap-3">
+            <div
+              class="bg-green-900/30 border border-green-500 p-4 rounded flex items-center justify-between"
+            >
+              <span class="font-bold text-green-400">SAFE</span>
+              <i data-lucide="check-circle" class="text-green-400"></i>
+            </div>
+            <div
+              class="bg-amber-900/30 border border-amber-500 p-4 rounded flex items-center justify-between"
+            >
+              <span class="font-bold text-amber-400">WARNING</span>
+              <i data-lucide="alert-triangle" class="text-amber-400"></i>
+            </div>
+            <div
+              class="bg-red-900/30 border border-red-500 p-4 rounded flex items-center justify-between"
+            >
+              <span class="font-bold text-red-400">CRITICAL</span>
+              <i data-lucide="x-octagon" class="text-red-400"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13: Backend Architecture -->
+    <div class="slide content-slide" id="slide-13">
+      <div class="slide-content">
+        <h2><i data-lucide="server"></i> Deployment Architecture</h2>
+        <div class="card p-8 text-center">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <i
+                data-lucide="cpu"
+                class="w-12 h-12 text-cyan-400 mx-auto mb-4"
+              ></i>
+              <h3 class="font-bold text-lg">FastAPI Backend</h3>
+              <p class="text-sm text-slate-400">
+                Exposes REST API endpoints for real-time model inference and
+                sensor data ingestion.
+              </p>
+            </div>
+            <div>
+              <i
+                data-lucide="database"
+                class="w-12 h-12 text-blue-400 mx-auto mb-4"
+              ></i>
+              <h3 class="font-bold text-lg">PostgreSQL (NeonDB)</h3>
+              <p class="text-sm text-slate-400">
+                Cloud-hosted serverless database storing raw readings,
+                predictions, and risk states.
+              </p>
+            </div>
+            <div>
+              <i
+                data-lucide="refresh-cw"
+                class="w-12 h-12 text-purple-400 mx-auto mb-4"
+              ></i>
+              <h3 class="font-bold text-lg">Continuous Learning</h3>
+              <p class="text-sm text-slate-400">
+                Periodically retrains models by comparing stored historical
+                predictions vs actuals.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14: End to End Flow -->
+    <div class="slide content-slide" id="slide-14">
+      <div class="slide-content">
+        <h2><i data-lucide="git-merge"></i> Complete End-to-End Pipeline</h2>
+        <div
+          class="relative w-full border-2 border-slate-700 rounded-xl p-4 md:p-6 bg-slate-800 mt-2"
+        >
+          <div
+            class="flex items-center justify-between text-center gap-2 text-xs md:text-sm font-bold w-full"
+          >
+            <div
+              class="bg-blue-900/50 border border-blue-500 p-2 rounded flex-1"
+            >
+              1. Raw Sensor Input
+            </div>
+            <i
+              data-lucide="arrow-right"
+              class="text-slate-500 flex-shrink-0 w-4 h-4 md:w-6 md:h-6"
+            ></i>
+            <div
+              class="bg-purple-900/50 border border-purple-500 p-2 rounded flex-1"
+            >
+              2. XGBoost/RF Imputation
+            </div>
+            <i
+              data-lucide="arrow-right"
+              class="text-slate-500 flex-shrink-0 w-4 h-4 md:w-6 md:h-6"
+            ></i>
+            <div
+              class="bg-cyan-900/50 border border-cyan-500 p-2 rounded text-cyan-200 flex-1"
+            >
+              3. Multivariate LSTM Forecast
+            </div>
+          </div>
+          <div class="flex justify-end pr-8 md:pr-16 py-2">
+            <i
+              data-lucide="arrow-down"
+              class="text-slate-500 w-4 h-4 md:w-6 md:h-6"
+            ></i>
+          </div>
+          <div
+            class="flex items-center justify-between text-center gap-2 text-xs md:text-sm font-bold w-full"
+          >
+            <div
+              class="bg-red-900/50 border border-red-500 p-2 rounded text-red-200 flex-1"
+            >
+              6. Early Warning UI Output
+            </div>
+            <i
+              data-lucide="arrow-left"
+              class="text-slate-500 flex-shrink-0 w-4 h-4 md:w-6 md:h-6"
+            ></i>
+            <div
+              class="bg-amber-900/50 border border-amber-500 p-2 rounded flex-1"
+            >
+              5. Risk Engine & Lead Time
+            </div>
+            <i
+              data-lucide="arrow-left"
+              class="text-slate-500 flex-shrink-0 w-4 h-4 md:w-6 md:h-6"
+            ></i>
+            <div
+              class="bg-green-900/50 border border-green-500 p-2 rounded flex-1"
+            >
+              4. Cascaded Nitrogen LSTM
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15: Results - Water Forecasting -->
+    <div class="slide content-slide" id="slide-15">
+      <div class="slide-content">
+        <h2>
+          <i data-lucide="bar-chart-2"></i> Results: Multivariate Forecasting
+        </h2>
+        <p class="text-slate-400 mb-4">
+          Performance of the proposed Stacked LSTM for DO, Temp, pH, and
+          Turbidity.
+        </p>
+        <div class="card overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+                <th>Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mean Absolute Error (MAE)</td>
+                <td class="font-bold text-cyan-400">0.08836</td>
+                <td>Extremely low absolute deviation.</td>
+              </tr>
+              <tr>
+                <td>Mean Squared Error (MSE)</td>
+                <td class="font-bold text-cyan-400">0.01242</td>
+                <td>Effective penalization of large errors.</td>
+              </tr>
+              <tr>
+                <td>Root Mean Squared Error (RMSE)</td>
+                <td class="font-bold text-cyan-400">0.11162</td>
+                <td>Strong performance on original scale.</td>
+              </tr>
+              <tr>
+                <td>MAPE</td>
+                <td class="font-bold">20.23%</td>
+                <td>Acceptable percentage error.</td>
+              </tr>
+              <tr>
+                <td>SMAPE</td>
+                <td class="font-bold">18.34%</td>
+                <td>Symmetric percentage error.</td>
+              </tr>
+              <tr>
+                <td>R² (Coefficient of Determination)</td>
+                <td class="font-bold text-green-400">0.52710</td>
+                <td>Explains significant variance in complex data.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 16: Results - Model Comparison -->
+    <div class="slide content-slide" id="slide-16">
+      <div class="slide-content">
+        <h2><i data-lucide="trello"></i> Results: Model Comparison</h2>
+        <div class="card overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>
+                  MAE
+                  <span class="text-xs text-slate-400">(Lower is better)</span>
+                </th>
+                <th>
+                  RMSE
+                  <span class="text-xs text-slate-400">(Lower is better)</span>
+                </th>
+                <th>
+                  R²
+                  <span class="text-xs text-slate-400">(Higher is better)</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="opacity-60">
+                <td>Persistence Baseline</td>
+                <td>0.12139</td>
+                <td>0.15530</td>
+                <td class="text-red-400">-0.67763</td>
+              </tr>
+              <tr>
+                <td>Random Forest</td>
+                <td>0.09226</td>
+                <td>0.11570</td>
+                <td>0.06662</td>
+              </tr>
+              <tr>
+                <td>XGBoost</td>
+                <td>0.08942</td>
+                <td>0.11295</td>
+                <td>0.11420</td>
+              </tr>
+              <tr>
+                <td>GRU</td>
+                <td>0.08842</td>
+                <td>0.11151</td>
+                <td>0.52811</td>
+              </tr>
+              <tr class="bg-cyan-900/30 border-l-4 border-cyan-500">
+                <td class="font-bold text-cyan-400">LSTM (Proposed)</td>
+                <td class="font-bold text-cyan-400">0.08836</td>
+                <td class="font-bold text-cyan-400">0.11162</td>
+                <td class="font-bold text-cyan-400">0.52710</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-sm text-slate-400 mt-4">
+          <i data-lucide="info" class="inline w-4 h-4"></i>
+          <b>Conclusion:</b> LSTM significantly outperforms traditional ensemble
+          methods (RF, XGBoost) due to its ability to capture temporal
+          sequencing.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 17: Results - Nitrogen Prediction -->
+    <div class="slide content-slide" id="slide-17">
+      <div class="slide-content">
+        <h2>
+          <i data-lucide="flask-round"></i> Results: Nitrogen Prediction Model
+        </h2>
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+          <div class="flex-1 card w-full">
+            <h3 class="text-lg font-bold border-b border-slate-700 pb-2 mb-4">
+              Nitrogen Performance
+            </h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MAE</td>
+                  <td class="font-bold text-amber-400">0.05348</td>
+                </tr>
+                <tr>
+                  <td>MSE</td>
+                  <td class="font-bold text-amber-400">0.00739</td>
+                </tr>
+                <tr>
+                  <td>RMSE</td>
+                  <td class="font-bold text-amber-400">0.08593</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flex-1">
+            <div class="highlight-box">
+              <p class="text-slate-200">
+                <i data-lucide="check-circle" class="inline text-green-400"></i>
+                The Cascaded architecture successfully predicts Ammonia and
+                Nitrate by utilizing the outputs of the primary water
+                forecasting model.
+              </p>
+              <p class="text-slate-400 text-sm mt-4">
+                Feature ablation testing confirmed that incorporating forecasted
+                DO, Temp, and pH significantly improves Nitrogen prediction
+                accuracy over standalone historical nitrogen data.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 18: Results - Sensor Imputation -->
+    <div class="slide content-slide" id="slide-18">
+      <div class="slide-content">
+        <h2>
+          <i data-lucide="activity"></i> Results: Sensor Imputation (Random
+          Forest)
+        </h2>
+        <p class="text-slate-400 mb-4">
+          Accuracy of reconstructing missing sensor data using concurrent
+          features.
+        </p>
+        <div class="card overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>MAE</th>
+                <th>RMSE</th>
+                <th>R²</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dissolved Oxygen</td>
+                <td>3.2995</td>
+                <td>4.4188</td>
+                <td>0.3463</td>
+              </tr>
+              <tr>
+                <td>Temperature</td>
+                <td>3.7734</td>
+                <td>5.1823</td>
+                <td>0.2374</td>
+              </tr>
+              <tr>
+                <td>pH</td>
+                <td>0.7336</td>
+                <td>0.9047</td>
+                <td>0.3442</td>
+              </tr>
+              <tr>
+                <td>Turbidity</td>
+                <td>7.7077</td>
+                <td>9.7158</td>
+                <td>0.2960</td>
+              </tr>
+              <tr class="bg-amber-900/20">
+                <td>Ammonia</td>
+                <td class="font-bold text-amber-400">0.0398</td>
+                <td class="font-bold text-amber-400">0.0966</td>
+                <td class="font-bold text-green-400">0.6426</td>
+              </tr>
+              <tr class="bg-amber-900/20">
+                <td>Nitrate</td>
+                <td class="font-bold text-amber-400">15.3805</td>
+                <td class="font-bold text-amber-400">22.2489</td>
+                <td class="font-bold text-green-400">0.6042</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-sm mt-2 text-cyan-400">
+          Note: Chemical/Nitrogen parameters show much higher R² recovery
+          correlation than physical parameters.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 19: Visualization Insights -->
+    <div class="slide content-slide" id="slide-19">
+      <div class="slide-content">
+        <h2><i data-lucide="line-chart"></i> Visualization Insights</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card">
+            <h3 class="font-bold text-lg mb-2 text-cyan-400">
+              <i data-lucide="waves" class="inline"></i> Continuous Forecast
+              Tracking
+            </h3>
+            <p class="text-sm text-slate-300">
+              Plots of Predicted vs True Dissolved Oxygen and Ammonia
+              demonstrated high overlap. The LSTM model successfully tracks
+              rapid, non-linear dips in oxygen levels, providing critical
+              predictive alerts before hypoxia occurs.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="font-bold text-lg mb-2 text-amber-400">
+              <i data-lucide="scatter-chart" class="inline"></i> Regression
+              Scatter Density
+            </h3>
+            <p class="text-sm text-slate-300">
+              Scatter plots of Predicted vs Actual values (DO, Temp, pH,
+              Turbidity) showed tight clustering along the diagonal identity
+              line, confirming low variance and absence of heavy systematic bias
+              in the forecasting module.
+            </p>
+          </div>
+        </div>
+        <div class="mt-6 border-l-4 border-slate-500 pl-4">
+          <p class="italic text-slate-400">
+            "The hybrid stabilization layer visibly smoothed unrealistic spikes
+            in the raw predictions, confining them to biological feasibility
+            bounds."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 20: System Status -->
+    <div class="slide content-slide" id="slide-20">
+      <div class="slide-content">
+        <h2><i data-lucide="check-square"></i> Current System Status</h2>
+        <div class="w-full max-w-2xl mx-auto space-y-2 md:space-y-3 mt-4">
+          <div
+            class="flex items-center justify-between p-3 border border-green-500/50 bg-green-900/20 rounded"
+          >
+            <span class="text-base md:text-lg font-bold text-slate-200"
+              >ML Models Trained & Tested</span
+            >
+            <i data-lucide="check-circle" class="text-green-400 w-5 h-5"></i>
+          </div>
+          <div
+            class="flex items-center justify-between p-3 border border-green-500/50 bg-green-900/20 rounded"
+          >
+            <span class="text-base md:text-lg font-bold text-slate-200"
+              >FastAPI Backend Running</span
+            >
+            <i data-lucide="check-circle" class="text-green-400 w-5 h-5"></i>
+          </div>
+          <div
+            class="flex items-center justify-between p-3 border border-green-500/50 bg-green-900/20 rounded"
+          >
+            <span class="text-base md:text-lg font-bold text-slate-200"
+              >NeonDB PostgreSQL Integration</span
+            >
+            <i data-lucide="check-circle" class="text-green-400 w-5 h-5"></i>
+          </div>
+          <div
+            class="flex items-center justify-between p-3 border border-blue-500/50 bg-blue-900/20 rounded"
+          >
+            <span class="text-base md:text-lg font-bold text-slate-200"
+              >Risk Assessment Engine</span
+            >
+            <i data-lucide="check-circle" class="text-blue-400 w-5 h-5"></i>
+          </div>
+          <div
+            class="flex items-center justify-between p-3 border border-amber-500/50 bg-amber-900/20 rounded opacity-70"
+          >
+            <span class="text-base md:text-lg font-bold text-slate-200"
+              >React Frontend Dashboard</span
+            >
+            <div class="flex items-center gap-2">
+              <i
+                data-lucide="loader"
+                class="text-amber-400 w-4 h-4 animate-spin"
+              ></i
+              ><span class="text-amber-400 text-sm">Under Development</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 21: Challenges -->
+    <div class="slide content-slide" id="slide-21">
+      <div class="slide-content">
+        <h2><i data-lucide="mountain-snow"></i> Implementation Challenges</h2>
+        <ul class="bullet-list">
+          <li>
+            <i data-lucide="zap"></i>
+            <b>Sensor Noise & Dropped Packets:</b> Real-world IoT deployments
+            yielded fragmented time-series data, forcing the creation of the
+            dual XGBoost/RF Imputation layer.
+          </li>
+          <li>
+            <i data-lucide="scale"></i> <b>Physical Violations in ML:</b> Deep
+            learning models occasionally predicted impossible physical states
+            (e.g., pH > 14). Resolved by building the Hybrid Stabilization
+            Layer.
+          </li>
+          <li>
+            <i data-lucide="cpu"></i> <b>Model Tuning:</b> Balancing the
+            Lookback window ($L=48$) and Horizon ($H=6$). A larger horizon
+            reduced accuracy exponentially, requiring hyperparameter
+            optimization.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SLIDE 22: Future Work -->
+    <div class="slide content-slide" id="slide-22">
+      <div class="slide-content">
+        <h2><i data-lucide="rocket"></i> Future Enhancements</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card border-t-4 border-t-cyan-500">
+            <h3 class="font-bold text-lg mb-2">1. Transformer Models</h3>
+            <p class="text-sm text-slate-400">
+              Migrating from Stacked LSTMs to Attention-based Transformer
+              architecture to handle longer sequence memory.
+            </p>
+          </div>
+          <div class="card border-t-4 border-t-purple-500">
+            <h3 class="font-bold text-lg mb-2">2. Automated Interventions</h3>
+            <p class="text-sm text-slate-400">
+              Using Reinforcement Learning (RL) to automatically trigger
+              aerators or water pumps based on forecasted risks.
+            </p>
+          </div>
+          <div class="card border-t-4 border-t-blue-500">
+            <h3 class="font-bold text-lg mb-2">3. External Data Integration</h3>
+            <p class="text-sm text-slate-400">
+              Incorporating external API weather data (sunlight, rainfall) to
+              improve physical pond parameter forecasts.
+            </p>
+          </div>
+          <div class="card border-t-4 border-t-green-500">
+            <h3 class="font-bold text-lg mb-2">4. Dashboard Completion</h3>
+            <p class="text-sm text-slate-400">
+              Finishing the React UI for farm operators, featuring live charting
+              and SMS/Email early-warning alerts.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 23: Conclusion -->
+    <div class="slide content-slide text-center" id="slide-23">
+      <div
+        class="slide-content text-center flex flex-col items-center justify-center"
+      >
+        <i data-lucide="check-square" class="w-24 h-24 text-cyan-400 mb-6"></i>
+        <h2 class="justify-center text-4xl mb-4 border-none">Conclusion</h2>
+        <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-8">
+          We successfully developed an end-to-end, AI-driven aquaculture
+          forecasting pipeline capable of
+          <b>multivariate physical predictions</b> and
+          <b>cascaded chemical (Nitrogen) risk assessments</b>.
+        </p>
+        <div
+          class="bg-slate-800 p-6 rounded-xl border border-slate-700 max-w-xl mx-auto"
+        >
+          <p class="font-bold text-cyan-400 text-lg">
+            Scalable. Predictive. Preventative.
+          </p>
+          <p class="text-slate-400 mt-2 text-sm">
+            Shifting aquaculture management from reactive survival to proactive
+            sustainability.
+          </p>
+        </div>
+
+        <h1
+          class="text-4xl font-bold mt-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400"
+        >
+          Thank You
+        </h1>
+        <p class="mt-4 text-slate-500">Open for Questions</p>
+      </div>
+    </div>
+
+    <script>
+      // Initialize Lucide Icons
+      lucide.createIcons();
+
+      // Presentation Logic
+      let currentSlide = 1;
+      const totalSlides = 23;
+
+      function updateSlide() {
+        // Hide all slides
+        document.querySelectorAll(".slide").forEach((slide) => {
+          slide.classList.remove("active");
+        });
+
+        // Show current slide
+        document
+          .getElementById(`slide-${currentSlide}`)
+          .classList.add("active");
+
+        // Update progress bar
+        const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+        document.getElementById("progress-bar").style.width = `${progress}%`;
+
+        // Update counter
+        document.getElementById("slide-counter").innerText =
+          `${currentSlide} / ${totalSlides}`;
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides) {
+          currentSlide++;
+          updateSlide();
+        }
+      }
+
+      function prevSlide() {
+        if (currentSlide > 1) {
+          currentSlide--;
+          updateSlide();
+        }
+      }
+
+      // Keyboard Navigation
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") {
+          nextSlide();
+        } else if (e.key === "ArrowLeft") {
+          prevSlide();
+        }
+      });
+
+      // Initialize first slide
+      updateSlide();
+    </script>
+  </body>
+</html>
